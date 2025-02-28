@@ -12,11 +12,11 @@ const clues = [
     { letter: "A", img: "images/alpenliebe.jpg", answer: "Alpenliebe" },
     { letter: "N", img: "images/notebook.jpg", answer: "Notebook" },
     { letter: "H", img: "images/hopnhac.jpg", answer: "Hộp nhạc" },
-    { letter: "T", img: "images/tat.jpg", answer: "Tất" },
-    { letter: "H", img: "images/hinhdan.jpg", answer: "Hình dán" },
-    { letter: "I", img: "images/icescream.jpg", answer: "Ice scream" },
-    { letter: "C", img: "images/chocolate.jpg", answer: "Chocolate" },
+    { letter: "T", img: "images/teddy.jpg", answer: "Teddy bear" },
     { letter: "H", img: "images/hoa.jpg", answer: "Hoa" },
+    { letter: "I", img: "images/icecream.jpg", answer: "Ice cream" },
+    { letter: "C", img: "images/chocolate.jpg", answer: "Chocolate" },
+    { letter: "H", img: "images/hinhdan.jpg", answer: "Hình dán" },
     { letter: "E", img: "images/ep.jpg", answer: "Ép" },
     { letter: "M", img: "images/mockhoa.jpg", answer: "Móc khóa" }
 ];
