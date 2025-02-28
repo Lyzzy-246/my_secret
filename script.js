@@ -1,14 +1,14 @@
-// Function to remove Vietnamese diacritics (Unicode normalization)
+// Hàm loại bỏ dấu tiếng Việt
 function removeDiacritics(str) {
     return str.normalize("NFD").replace(/[\u0300-\u036f]/g, "");
-}
-
-/* Array containing clues with:
-   - letter: First letter of the answer
-   - img: Image path
-   - answer: The correct word (processed into uppercase, no spaces, no diacritics)
-*/
-const clues = [
+  }
+  
+  /* Mảng clues chứa thông tin:
+     - letter: Chữ cái đầu tiên
+     - img: Đường dẫn hình ảnh
+     - answer: Đáp án đầy đủ (có dấu)
+  */
+  const clues = [
     { letter: "A", img: "images/alpenliebe.jpg", answer: "Alpenliebe" },
     { letter: "N", img: "images/notebook.jpg", answer: "Notebook" },
     { letter: "H", img: "images/hopnhac.jpg", answer: "Hộp nhạc" },
@@ -19,56 +19,55 @@ const clues = [
     { letter: "H", img: "images/hinhdan.jpg", answer: "Hình dán" },
     { letter: "E", img: "images/ep.jpg", answer: "Ép" },
     { letter: "M", img: "images/mockhoa.jpg", answer: "Móc khóa" }
-];
-
-const cluesContainer = document.getElementById("clues");
-const allInputs = [];
-
-// Function to create a floating heart effect
-function createHeartEffect(element) {
+  ];
+  
+  const cluesContainer = document.getElementById("clues");
+  const allInputs = [];
+  
+  // Hiệu ứng trái tim khi nhập đúng
+  function createHeartEffect(element) {
     const heart = document.createElement("div");
     heart.innerHTML = "❤️";
     heart.classList.add("heart-pop");
     document.body.appendChild(heart);
-
+  
     const rect = element.getBoundingClientRect();
-
-    // Adjust for scrolling
     const scrollX = window.scrollX || document.documentElement.scrollLeft;
     const scrollY = window.scrollY || document.documentElement.scrollTop;
-
+  
     heart.style.left = `${rect.left + rect.width / 2 + scrollX}px`;
-    heart.style.top = `${rect.top + scrollY - 10}px`; // Adjust height
-
+    heart.style.top = `${rect.top + scrollY - 10}px`;
+  
     setTimeout(() => {
-        heart.remove();
+      heart.remove();
     }, 600);
-}
-function createCrossEffect(element) {
-    const heart = document.createElement("div");
-    heart.innerHTML = "❌";
-    heart.classList.add("heart-pop");
-    document.body.appendChild(heart);
-
+  }
+  
+  // Hiệu ứng dấu X khi nhập sai
+  function createCrossEffect(element) {
+    const cross = document.createElement("div");
+    cross.innerHTML = "❌";
+    cross.classList.add("heart-pop");
+    document.body.appendChild(cross);
+  
     const rect = element.getBoundingClientRect();
-
-    // Adjust for scrolling
     const scrollX = window.scrollX || document.documentElement.scrollLeft;
     const scrollY = window.scrollY || document.documentElement.scrollTop;
-
-    heart.style.left = `${rect.left + rect.width / 2 + scrollX}px`;
-    heart.style.top = `${rect.top + scrollY - 10}px`; // Adjust height
-
+  
+    cross.style.left = `${rect.left + rect.width / 2 + scrollX}px`;
+    cross.style.top = `${rect.top + scrollY - 10}px`;
+  
     setTimeout(() => {
-        heart.remove();
+      cross.remove();
     }, 600);
-}
-// Generate the question interface
-clues.forEach((clue) => {
+  }
+  
+  // Tạo các dòng câu hỏi
+  clues.forEach((clue) => {
     const rowDiv = document.createElement("div");
     rowDiv.classList.add("clue-container");
-    
-    // Image hint
+  
+    // Phần chứa hình ảnh (ban đầu ẩn qua CSS)
     const clueLabel = document.createElement("div");
     clueLabel.classList.add("clue-label");
     const img = document.createElement("img");
@@ -76,124 +75,136 @@ clues.forEach((clue) => {
     img.alt = clue.letter + " - " + clue.answer;
     clueLabel.appendChild(img);
     rowDiv.appendChild(clueLabel);
-    
-    // Answer input fields
+  
+    // Phần chứa các ô nhập đáp án
     const answerBox = document.createElement("div");
     answerBox.classList.add("answer-box");
-
+  
     const processedAnswer = removeDiacritics(clue.answer).replace(/\s+/g, '').toUpperCase();
-    
+  
+    // Tạo input cho từng ký tự
     for (let i = 0; i < processedAnswer.length; i++) {
-        const input = document.createElement("input");
-        input.type = "text";
-        input.maxLength = 1;
-        input.classList.add("letter-input");
-        input.dataset.correct = processedAnswer.charAt(i);
-        
-        input.addEventListener("input", function() {
-            let userInput = removeDiacritics(this.value).toUpperCase();
-            this.value = userInput;
-            
-            if (userInput === "") {
-                this.classList.remove("correct", "incorrect");
-            } else if (userInput === this.dataset.correct) {
-                this.classList.add("correct");
-                this.classList.remove("incorrect");
-                createHeartEffect(this); // Trigger heart animation
-            } else {
-                this.classList.add("incorrect");
-                this.classList.remove("correct");
-                createCrossEffect(this)
-            }
-            
-            if (userInput.length === 1) {
-                let nextInput = this.nextElementSibling;
-                if (nextInput && nextInput.tagName.toUpperCase() === "INPUT") {
-                    nextInput.focus();
-                }
-            }
-            checkAllAnswers();
+      const input = document.createElement("input");
+      input.type = "text";
+      input.maxLength = 1;
+      input.classList.add("letter-input");
+      input.dataset.correct = processedAnswer.charAt(i);
+  
+      // Sự kiện khi người dùng nhập
+      input.addEventListener("input", function() {
+        let userInput = removeDiacritics(this.value).toUpperCase();
+        this.value = userInput;
+  
+        if (userInput === "") {
+          this.classList.remove("correct", "incorrect");
+        } else if (userInput === this.dataset.correct) {
+          this.classList.add("correct");
+          this.classList.remove("incorrect");
+          createHeartEffect(this);
+        } else {
+          this.classList.add("incorrect");
+          this.classList.remove("correct");
+          createCrossEffect(this);
+        }
+  
+        // Tự động focus ô kế tiếp
+        if (userInput.length === 1) {
+          let nextInput = this.nextElementSibling;
+          if (nextInput && nextInput.tagName.toUpperCase() === "INPUT") {
+            nextInput.focus();
+          }
+        }
+  
+        // Kiểm tra cả dòng đã đúng chưa
+        const rowInputs = rowDiv.querySelectorAll(".letter-input");
+        let allCorrect = true;
+        rowInputs.forEach((inp) => {
+          if (inp.value !== inp.dataset.correct) {
+            allCorrect = false;
+          }
         });
-
-        input.addEventListener("keydown", function(event) {
-            if (event.key === "Backspace" && this.value === "") {
-                let prevInput = this.previousElementSibling;
-                if (prevInput && prevInput.tagName.toUpperCase() === "INPUT") {
-                    prevInput.focus();
-                }
-            }
-        });
-
-        answerBox.appendChild(input);
-        allInputs.push(input);
+        if (allCorrect && !rowDiv.classList.contains("solved")) {
+          rowDiv.classList.add("solved");
+          // Hiển thị hình ảnh
+          img.style.opacity = 1;
+          // Ẩn dần các ô trừ ô đầu tiên
+          answerBox.classList.add("solved");
+          // Vô hiệu hóa input
+          rowInputs.forEach((inp) => inp.disabled = true);
+        }
+  
+        // Kiểm tra toàn bộ project
+        checkAllAnswers();
+      });
+  
+      // Cho phép nhấn Backspace để lùi
+      input.addEventListener("keydown", function(event) {
+        if (event.key === "Backspace" && this.value === "") {
+          let prevInput = this.previousElementSibling;
+          if (prevInput && prevInput.tagName.toUpperCase() === "INPUT") {
+            prevInput.focus();
+          }
+        }
+      });
+  
+      answerBox.appendChild(input);
+      allInputs.push(input);
     }
-
+  
     rowDiv.appendChild(answerBox);
     cluesContainer.appendChild(rowDiv);
-});
-
-// Check if all answers are correct
-function checkAllAnswers() {
+  });
+  
+  // Hàm kiểm tra toàn bộ
+  function checkAllAnswers() {
     for (let input of allInputs) {
-        if (input.value !== input.dataset.correct) {
-            return;
-        }
+      if (input.value !== input.dataset.correct) {
+        return;
+      }
     }
+    // Nếu chạy hết vòng for mà không return => tất cả đều đúng
     triggerFinalAnimation();
-}
-
-let finalAnimationTriggered = false;
-
-function triggerFinalAnimation() {
+  }
+  
+  let finalAnimationTriggered = false;
+  
+  // Khi tất cả đúng -> chờ 5 giây -> thay thế container
+  function triggerFinalAnimation() {
     if (finalAnimationTriggered) return;
     finalAnimationTriggered = true;
-
-    // Hide all question boxes and images
-    document.getElementById("clues-container").classList.add("hidden-clues");
-
-    // Show final word container
-    const finalWordContainer = document.getElementById("finalWord");
-    finalWordContainer.innerHTML = ""; // Clear previous content
-    finalWordContainer.style.display = "flex"; // Ensure it's visible
-
-    const firstLetters = [];
-
-    // Hide all letter boxes except the first letter
-    document.querySelectorAll(".answer-box").forEach((box) => {
-        box.classList.add("hidden"); // Hide other letters
-    });
-
-    // Find and move first letter of each answer
-    document.querySelectorAll(".answer-box input:first-child").forEach((input, index) => {
-        const letter = input.value.toUpperCase(); // Get first letter
-
-        if (!letter.trim()) return; // Skip if empty
-
+  
+    // Chờ 5 giây
+    setTimeout(() => {
+      // Xóa (hoặc ẩn) container chứa câu hỏi
+      const cluesContainer = document.getElementById("clues-container");
+      cluesContainer.style.display = "none";
+      // Hoặc cluesContainer.style.display = "none"; tùy ý
+  
+      // Tạo nội dung cho final word
+      const finalWordContainer = document.getElementById("finalWord");
+      finalWordContainer.innerHTML = ""; // Xóa nội dung cũ
+      // Hiển thị container finalWord (vì ban đầu ta để display: none trong CSS)
+      finalWordContainer.style.display = "inline-flex"; 
+  
+      // Lấy chữ cái đầu tiên của mỗi đáp án
+      const firstLetters = [];
+      document.querySelectorAll(".answer-box input:first-child").forEach((input) => {
+        const letter = input.value.toUpperCase();
+        if (!letter.trim()) return;
         const letterBox = document.createElement("div");
         letterBox.textContent = letter;
         letterBox.classList.add("final-letter-box");
-
-        // Get original position of the input box
-        const rect = input.getBoundingClientRect();
-        letterBox.style.left = `${rect.left}px`;
-        letterBox.style.top = `${rect.top}px`;
-
         finalWordContainer.appendChild(letterBox);
         firstLetters.push(letterBox);
-    });
-
-    // Small delay for natural transition
-    setTimeout(() => {
+      });
+  
+      // (Tuỳ chọn) Hiệu ứng di chuyển nhẹ
+      setTimeout(() => {
         firstLetters.forEach((box, index) => {
-            box.style.position = "relative"; // Move into final position
-            box.style.left = "0px";
-            box.style.top = "0px";
-            box.style.transform = `translateX(${index * 50}px)`;
+          box.style.transform = `translateX(${index * 1}px)`;
         });
-
-        // Show the final word
-        finalWordContainer.classList.add("show");
-    }, 100);
-}
-
-
+      }, 100);
+  
+    }, 5000);
+  }
+  

@@ -1,32 +1,32 @@
+/* Body dùng flex cho căn giữa, padding nhỏ để thoáng trang */
 body {
   background-color: #f9dcdc;
   font-family: "Playwrite IT Moderna", serif;
   font-weight: bolder;
-  font-style: bold;
   margin: 20px;
   display: flex;
   flex-direction: column;
   align-items: center;
+  padding: 0 10px;
 }
 
+/* Header box */
 .header-box {
   background-color: #f7f2eb;
   border: 3px solid #dd8282;
   border-radius: 40px;
   padding: 20px;
   text-align: center;
+  width: 90%;
   max-width: 900px;
   margin: 20px auto;
-}
-
-h1, h3 {
-  margin: 10px 0;
 }
 
 h1 {
   font-size: 48px;
   font-weight: bold;
   color: #dd8282;
+  margin: 10px 0;
 }
 
 h3 {
@@ -41,12 +41,21 @@ h3 {
   margin: 10px;
 }
 
-/* Centered Clue Container */
+/* Container chung */
+#mainContainer {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* Container chứa các câu hỏi */
 #clues-container {
   background-color: #f7f2eb;
   border: 3px solid #dd8282;
   border-radius: 20px;
   padding: 20px;
+  width: 90%;
   max-width: 800px;
   text-align: center;
   margin: 20px auto;
@@ -55,16 +64,15 @@ h3 {
   align-items: center;
 }
 
-/* Container for each clue */
+/* Mỗi dòng clue */
 .clue-container {
   margin-bottom: 15px;
   display: flex;
-  align-items: left;
-  justify-content: left;
+  align-items: flex-start;
   width: 100%;
 }
 
-/* Hint image styling */
+/* Phần chứa hình ảnh */
 .clue-label {
   width: 150px;
   font-weight: bold;
@@ -73,9 +81,21 @@ h3 {
 .clue-label img {
   width: 100px;
   height: auto;
+  /* Ban đầu có thể để opacity=0 nếu muốn ẩn,
+     ở đây ta điều khiển hiển thị bằng JS */
+  opacity: 0;
+  transition: opacity 1s ease-in-out;
 }
 
-/* Letter input fields */
+/* Hộp chứa các ô đáp án */
+.answer-box {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-left: 10px;
+}
+
+/* Ô input */
 .letter-input {
   width: 40px;
   height: 40px;
@@ -95,65 +115,46 @@ h3 {
   border-color: red;
 }
 
-/* Answer box styling */
-.answer-box {
-  display: flex;
-  justify-content: center;
-}
-
-/* Fade-out effect */
-.fade-out {
-  opacity: 0;
-  transition: opacity 2s;
-}
-
-.answer-box.hidden .letter-input:not(:first-child) {
-  opacity: 0;
-  transition: opacity 1s;
-}
-
-/* Ensure first letter boxes are positioned correctly before moving */
-/* Ensure first letters are positioned for movement */
-/* Position the final word container */
-#finalWord {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  background-color: white;
-  padding: 10px;
-  border-radius: 10px;
-  border: 2px solid black;
-  min-height: 50px;
-  gap: 5px; /* Space between letters */
+/* Khi dòng đã solve, ẩn dần các ô trừ ô đầu */
+.answer-box.solved .letter-input:not(:first-child) {
   opacity: 0;
   transition: opacity 1s ease-in-out;
 }
 
-/* Style for moving letters */
+/* Container final word (ban đầu ẩn) */
+#finalWord {
+  display: none; /* Ban đầu ẩn, JS sẽ bật lên */
+  background-color: white;
+  padding: 10px;
+  border-radius: 10px;
+  border: 2px solid black;
+  gap: 5px;
+  margin: 20px auto;
+  text-align: center;
+  /* Dùng inline-flex để ôm sát nội dung */
+  /* Hoặc flex nếu muốn toàn dòng */
+  justify-content: center;
+  align-items: center;
+}
+
+/* Các chữ cái hiển thị ở final word */
 .final-letter-box {
-  width: 40px;
-  height: 40px;
+  width: 50px;
+  height: 50px;
   text-align: center;
   font-size: 24px;
   font-weight: bold;
   border: 2px solid black;
   border-radius: 5px;
   background-color: white;
-  position: absolute; /* Start absolute, then move */
-  transition: transform 1s ease-in-out, left 1s ease-in-out, top 1s ease-in-out;
+  transition: transform 1s ease-in-out;
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  margin: 0 5px;
 }
 
-/* Fade in when final animation starts */
-#finalWord.show {
-  opacity: 1;
-}
-
-.hidden-clues {
-  opacity: 0;
-  pointer-events: none; /* Prevent blocking */
-  transition: opacity 0.5s ease-in-out;
-}
-/* Heart pop-up animation */
+/* Hiệu ứng pop (trái tim, dấu X) */
 .heart-pop {
   position: absolute;
   font-size: 20px;
@@ -164,11 +165,11 @@ h3 {
 
 @keyframes pop {
   0% {
-      transform: translateY(0) scale(0.5);
-      opacity: 1;
+    transform: translateY(0) scale(0.5);
+    opacity: 1;
   }
   100% {
-      transform: translateY(-30px) scale(1);
-      opacity: 0;
+    transform: translateY(-30px) scale(1);
+    opacity: 0;
   }
 }
