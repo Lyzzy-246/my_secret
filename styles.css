@@ -154,6 +154,37 @@ h3 {
   margin: 0 5px;
 }
 
+/* Container mới cho đoạn văn (tách biệt với #finalWord) */
+.final-message-container {
+  max-width: 800px; /* Giới hạn độ rộng nếu muốn */
+  margin: 20px auto;
+  text-align: center; /* Hoặc left, tùy ý */
+  background-color: #fff;
+  border: 2px solid black;
+  border-radius: 10px;
+  padding: 20px;
+}
+
+/* Đoạn văn trong final-message-container */
+.final-message-container p {
+  margin: 10px 0;
+  line-height: 1.5;
+  font-size: 16px;
+}
+
+/* Nút hình trái tim (tách riêng) */
+.heart-button {
+  display: block;       /* Cho xuống hàng riêng */
+  margin: 20px auto 0;  /* Canh giữa, cách đoạn văn 20px */
+  background: none;
+  border: none;
+  font-size: 40px;
+  cursor: pointer;
+}
+.heart-button:hover {
+  transform: scale(1.2);
+}
+
 /* Hiệu ứng pop (trái tim, dấu X) */
 .heart-pop {
   position: absolute;

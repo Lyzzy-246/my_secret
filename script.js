@@ -175,35 +175,63 @@ function removeDiacritics(str) {
   
     // Chờ 5 giây
     setTimeout(() => {
-      // Xóa (hoặc ẩn) container chứa câu hỏi
+      // 1) Ẩn container chứa câu hỏi
       const cluesContainer = document.getElementById("clues-container");
       cluesContainer.style.display = "none";
-      // Hoặc cluesContainer.style.display = "none"; tùy ý
   
-      // Tạo nội dung cho final word
+      // 2) Chuẩn bị final word
       const finalWordContainer = document.getElementById("finalWord");
       finalWordContainer.innerHTML = ""; // Xóa nội dung cũ
-      // Hiển thị container finalWord (vì ban đầu ta để display: none trong CSS)
-      finalWordContainer.style.display = "inline-flex"; 
+      finalWordContainer.style.display = "inline-flex"; // Chỉ chứa chữ cái
   
       // Lấy chữ cái đầu tiên của mỗi đáp án
-      const firstLetters = [];
+      const letters = [];
       document.querySelectorAll(".answer-box input:first-child").forEach((input) => {
         const letter = input.value.toUpperCase();
         if (!letter.trim()) return;
+        letters.push(letter);
+      });
+  
+      // Tạo các ô chữ trong #finalWord
+      letters.forEach((letter) => {
         const letterBox = document.createElement("div");
         letterBox.textContent = letter;
         letterBox.classList.add("final-letter-box");
         finalWordContainer.appendChild(letterBox);
-        firstLetters.push(letterBox);
       });
   
-      // (Tuỳ chọn) Hiệu ứng di chuyển nhẹ
+      // (Tuỳ chọn) Hiệu ứng di chuyển nhẹ cho từng ô chữ
       setTimeout(() => {
-        firstLetters.forEach((box, index) => {
+        const letterBoxes = document.querySelectorAll(".final-letter-box");
+        letterBoxes.forEach((box, index) => {
           box.style.transform = `translateX(${index * 1}px)`;
         });
       }, 100);
+  
+      // 3) Tạo container mới cho đoạn văn và nút trái tim
+      const mainContainer = document.getElementById("mainContainer");
+      const messageContainer = document.createElement("div");
+      messageContainer.classList.add("final-message-container");
+      /* Đoạn văn tách biệt so với #finalWord */
+      messageContainer.innerHTML = `
+        <p>Hehehe, so you've figured out what I wanted to say through the little gifts I gave you, right?</p>
+        <p>Actually, this idea just popped into my head when I met you (maybe some mysterious force from the universe made it happen). It’s really simple—I like you.</p>
+        <p>If you truly feel like you could give me a chance to walk this path with you, then go ahead and click on the little heart below. (I’ve prepared a small letter I want to share with you.)</p>
+        <p>But if you feel like something isn’t quite right, then please don’t click it. (I’d get really shy...)</p>
+        <p>Just think of this as my little secret! Hehe (^_^)''</p>
+      `;
+      // Thêm vào dưới #finalWord
+      mainContainer.appendChild(messageContainer);
+  
+      // 4) Tạo nút hình trái tim (tách riêng ở dưới đoạn văn)
+      const heartButton = document.createElement("button");
+      heartButton.classList.add("heart-button");
+      heartButton.innerHTML = "❤️"; 
+      heartButton.addEventListener("click", function() {
+        // Mở file letter.html trong thư mục letter
+        window.location.href = "letter/letter.html";
+      });
+      messageContainer.appendChild(heartButton);
   
     }, 5000);
   }
