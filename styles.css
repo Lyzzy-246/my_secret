@@ -123,16 +123,13 @@ h3 {
 
 /* Container final word (ban đầu ẩn) */
 #finalWord {
-  display: none; /* Ban đầu ẩn, JS sẽ bật lên */
+  display: none; 
   background-color: white;
-  padding: 10px;
   border-radius: 10px;
   border: 2px solid black;
-  gap: 5px;
-  margin: 20px auto;
+  /*gap: 5px;*/
+  margin: 30px auto;
   text-align: center;
-  /* Dùng inline-flex để ôm sát nội dung */
-  /* Hoặc flex nếu muốn toàn dòng */
   justify-content: center;
   align-items: center;
 }
