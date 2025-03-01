@@ -217,8 +217,8 @@ function removeDiacritics(str) {
         <p>Hehehe, so you've figured out what I wanted to say through the little gifts I gave you, right?</p>
         <p>Actually, this idea just popped into my head when I met you (maybe some mysterious force from the universe made it happen). It’s really simple—I like you.</p>
         <p>If you truly feel like you could give me a chance to walk this path with you, then go ahead and click on the little heart below. (I’ve prepared a small letter I want to share with you.)</p>
-        <p>But if you feel like something isn’t quite right, then please don’t click it. (I’d get really shy...)</p>
-        <p>Just think of this as my little secret! Hehe (^_^)''</p>
+        <p>But if you feel like you're not ready yet, then please don’t click it. (I’d get really shy...)</p>
+        <p>Just think of this as my little secret—something I wanted to share with you, that’s all! Hehe (^_^)''</p>
       `;
       // Thêm vào dưới #finalWord
       mainContainer.appendChild(messageContainer);
