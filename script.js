@@ -208,7 +208,7 @@ function removeDiacritics(str) {
               const letterBox = document.createElement("div");
               letterBox.textContent = letter;
               letterBox.classList.add("final-letter-box");
-              letterBox.style.position = "absolute"; // Đặt vị trí tuyệt đối ban đầu
+              letterBox.style.position = "fixed"; // Đặt vị trí tuyệt đối ban đầu
               letterBox.style.left = `${originalPositions[index].left}px`;
               letterBox.style.top = `${originalPositions[index].top}px`;
               finalWordContainer.appendChild(letterBox);
@@ -224,7 +224,11 @@ function removeDiacritics(str) {
                   // Chuyển động về vị trí đích
                   box.style.transition = "all 1s ease-out";
                   box.style.left = `${targetLeft - 290}px`;
-                  box.style.top = `${targetTop + 80}px`;
+                  box.style.top = `${targetTop + 110}px`;
+
+                  setTimeout(() => {
+                    box.style.position = "absolute";
+                }, 1); // Đợi 1 giây để hoàn tất chuyển động trước khi đổi position
               });
           }, 500);
   

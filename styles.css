@@ -1,15 +1,50 @@
 /* Body dùng flex cho căn giữa, padding nhỏ để thoáng trang */
 body {
-  background-color: #f9dcdc;
-  font-family: "Playwrite IT Moderna", serif;
-  font-weight: bolder;
-  margin: 20px;
+    background-color: #f9dcdc;
+    font-family: "Playwrite IT Moderna", serif;
+    font-weight: bolder;
+    margin: 5px;
+    display: flex;
+    justify-content: center;
+    padding: 0 10px;
+    position: relative;
+}
+
+.side-gif {
+  position: fixed; /* Changed from absolute to fixed */
+  top: 0;
+  width: 150px;
+  height: 100%;
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding: 0 10px;
+  justify-content: flex-start;
+  z-index: 0;
+  gap: 60px; /* Keeps distance between GIFs */
+  padding: 20px 0; /* Optional: More padding for a cleaner look */
 }
 
+.left-gif {
+  left: 0;
+}
+
+.right-gif {
+  right: 0;
+}
+
+.side-gif img {
+  width: 100%;
+  height: auto;
+  object-fit: cover;
+  border-radius: 10px; /* Optional: Rounded corners for a better look */
+}
+
+.scroll-container {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  padding: 0 170px; /* Adjust for side GIF width and gap */
+}
 /* Header box */
 .header-box {
   background-color: #f7f2eb;
@@ -83,7 +118,7 @@ h3 {
   height: auto;
   /* Ban đầu có thể để opacity=0 nếu muốn ẩn,
      ở đây ta điều khiển hiển thị bằng JS */
-  opacity: 0;
+  opacity: 1;
   transition: opacity 1s ease-in-out;
 }
 
