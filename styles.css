@@ -1,0 +1,238 @@
+/* Body dùng flex cho căn giữa, padding nhỏ để thoáng trang */
+body {
+    background-color: #f9dcdc;
+    font-family: "Playwrite IT Moderna", serif;
+    font-weight: bolder;
+    margin: 5px;
+    display: flex;
+    justify-content: center;
+    padding: 0 10px;
+    position: relative;
+}
+
+.side-gif {
+  position: fixed; /* Changed from absolute to fixed */
+  top: 0;
+  width: 150px;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  z-index: 0;
+  gap: 60px; /* Keeps distance between GIFs */
+  padding: 20px 0; /* Optional: More padding for a cleaner look */
+}
+
+.left-gif {
+  left: 0;
+}
+
+.right-gif {
+  right: 0;
+}
+
+.side-gif img {
+  width: 100%;
+  height: auto;
+  object-fit: cover;
+  border-radius: 10px; /* Optional: Rounded corners for a better look */
+}
+
+.scroll-container {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  padding: 0 170px; /* Adjust for side GIF width and gap */
+}
+/* Header box */
+.header-box {
+  background-color: #f7f2eb;
+  border: 3px solid #dd8282;
+  border-radius: 40px;
+  padding: 20px;
+  text-align: center;
+  width: 90%;
+  max-width: 900px;
+  margin: 20px auto;
+}
+
+h1 {
+  font-size: 48px;
+  font-weight: bold;
+  color: #dd8282;
+  margin: 10px 0;
+}
+
+h3 {
+  font-size: 24px;
+  font-weight: normal;
+  background-color: #dd8282;
+  display: inline-block;
+  padding: 5px 15px;
+  border-radius: 20px;
+  color: #f7f2eb;
+  border: 2px solid #a84e4e;
+  margin: 10px;
+}
+
+/* Container chung */
+#mainContainer {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* Container chứa các câu hỏi */
+#clues-container {
+  background-color: #f7f2eb;
+  border: 3px solid #dd8282;
+  border-radius: 20px;
+  padding: 20px;
+  width: 90%;
+  max-width: 800px;
+  text-align: center;
+  margin: 20px auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* Mỗi dòng clue */
+.clue-container {
+  margin-bottom: 15px;
+  display: flex;
+  align-items: flex-start;
+  width: 100%;
+}
+
+/* Phần chứa hình ảnh */
+.clue-label {
+  width: 150px;
+  font-weight: bold;
+}
+
+.clue-label img {
+  width: 100px;
+  height: auto;
+  /* Ban đầu có thể để opacity=0 nếu muốn ẩn,
+     ở đây ta điều khiển hiển thị bằng JS */
+  opacity: 0;
+  transition: opacity 1s ease-in-out;
+}
+
+/* Hộp chứa các ô đáp án */
+.answer-box {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-left: 10px;
+}
+
+/* Ô input */
+.letter-input {
+  width: 40px;
+  height: 40px;
+  text-align: center;
+  font-size: 24px;
+  margin-right: 5px;
+  border: 2px solid black;
+  border-radius: 5px;
+  transition: border-color 0.3s;
+}
+
+.letter-input.correct {
+  border-color: green;
+}
+
+.letter-input.incorrect {
+  border-color: red;
+}
+
+/* Khi dòng đã solve, ẩn dần các ô trừ ô đầu */
+.answer-box.solved .letter-input:not(:first-child) {
+  opacity: 0;
+  transition: opacity 1s ease-in-out;
+}
+
+/* Container final word (ban đầu ẩn) */
+#finalWord {
+  display: none; 
+  background-color: white;
+  border-radius: 10px;
+  border: 2px solid black;
+  /*gap: 5px;*/
+  margin: 30px auto;
+  text-align: center;
+  justify-content: center;
+  align-items: center;
+}
+
+/* Các chữ cái hiển thị ở final word */
+.final-letter-box {
+  width: 50px;
+  height: 50px;
+  text-align: center;
+  font-size: 24px;
+  font-weight: bold;
+  border: 2px solid black;
+  border-radius: 5px;
+  background-color: white;
+  transition: transform 1s ease-in-out;
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  margin: 0 5px;
+}
+
+/* Container mới cho đoạn văn (tách biệt với #finalWord) */
+.final-message-container {
+  max-width: 800px; /* Giới hạn độ rộng nếu muốn */
+  margin: 20px auto;
+  text-align: center; /* Hoặc left, tùy ý */
+  background-color: #fff;
+  border: 2px solid black;
+  border-radius: 10px;
+  padding: 20px;
+}
+
+/* Đoạn văn trong final-message-container */
+.final-message-container p {
+  margin: 10px 0;
+  line-height: 1.5;
+  font-size: 16px;
+}
+
+/* Nút hình trái tim (tách riêng) */
+.heart-button {
+  display: block;       /* Cho xuống hàng riêng */
+  margin: 20px auto 0;  /* Canh giữa, cách đoạn văn 20px */
+  background: none;
+  border: none;
+  font-size: 40px;
+  cursor: pointer;
+}
+.heart-button:hover {
+  transform: scale(1.2);
+}
+
+/* Hiệu ứng pop (trái tim, dấu X) */
+.heart-pop {
+  position: absolute;
+  font-size: 20px;
+  color: red;
+  animation: pop 0.6s ease-out forwards;
+  pointer-events: none;
+}
+
+@keyframes pop {
+  0% {
+    transform: translateY(0) scale(0.5);
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(-30px) scale(1);
+    opacity: 0;
+  }
+}
